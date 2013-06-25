@@ -18,7 +18,8 @@
     __weak id <KIImagePagerDelegate> _delegate;
     
     UIScrollView *_scrollView;
-    UIPageControl *_pageControl;
+    //UIPageControl *_pageControl;
+    SMPageControl *_pageControl;
     UILabel *_countLabel;
     UIView *_indicatorBackground;
     
@@ -81,6 +82,8 @@
     if(!_indicatorDisabled)
         [self initalizeImageCounter];
     [self loadData];
+    [self.pageControl setPageIndicatorImage:[UIImage imageNamed:@"pageDot"]];
+    [self.pageControl setCurrentPageIndicatorImage:[UIImage imageNamed:@"currentPageDot"]];
 }
 
 - (UIColor *) randomColor
@@ -134,6 +137,10 @@
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.autoresizingMask = self.autoresizingMask;
+    
+    //Clear Back View.
+    [_scrollView setBackgroundColor:[UIColor whiteColor]];
+    
     [self addSubview:_scrollView];
 }
 
@@ -207,11 +214,24 @@
     _indicatorDisabled = indicatorDisabled;
 }
 
+-(void) scrollToTop{
+    [_scrollView setContentOffset:CGPointMake(0, 0)];
+    [_pageControl setCurrentPage:0];
+}
+
+-(void) scrollToPage:(int) page{
+    
+    
+    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width*page, 0) animated:NO];
+    [_pageControl setCurrentPage:page];
+}
+
 #pragma mark - PageControl Initialization
 - (void) initializePageControl
 {
     CGRect pageControlFrame = CGRectMake(0, 0, _scrollView.frame.size.width, kPageControlHeight);
-    _pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
+    //_pageControl = [[UIPageControl alloc] initWithFrame:pageControlFrame];
+    _pageControl = [[SMPageControl alloc] initWithFrame:pageControlFrame];
     _pageControl.center = CGPointMake(_scrollView.frame.size.width/2, _scrollView.frame.size.height - 12);
     _pageControl.userInteractionEnabled = NO;
     [self addSubview:_pageControl];
