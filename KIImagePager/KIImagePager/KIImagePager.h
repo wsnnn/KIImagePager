@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "SMPageControl.h"
 
 @class KIImagePager;
 
@@ -36,10 +37,12 @@
 @property (weak) IBOutlet id <KIImagePagerDelegate> delegate;
 
 @property (assign) UIViewContentMode contentMode;
-@property (nonatomic, retain) UIPageControl *pageControl;
+//@property (nonatomic, retain) UIPageControl *pageControl;
+@property (nonatomic, retain) SMPageControl *pageControl;
 @property (nonatomic, assign) BOOL indicatorDisabled;
 
 - (void) reloadData;
+- (void) scrollToPage:(int) page;
 
 @end
 
